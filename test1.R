@@ -1,6 +1,5 @@
 #' Homework 01 - Tests R datastructures knowledge 
 #' Due on: 09/06/2021 
-
 #' Q1. Create two vectors yearsOfExperience	and annualSalary, using the below values: 
 
 #' 1.1	39343.00
@@ -59,13 +58,16 @@ print(employees)
 
 
 #' Q6. Create a logical vector extractRows of five elements with all the element values as TRUE 
-#' 
+extractRows <- c(1,2,3,4,5)
+extractRows[c(TRUE, TRUE, TRUE, TRUE, TRUE)]
+
 
 #' Q7. Extract first five rows of employees dataframe using the logical vector extractRows
 #' Compare and validate the output using head function. Provide a screenshot in the word document. 
+employees[extractRows]
 
 #' Q8. Create an integer vector of values 1 to 30 using a sequence operator and name it as filterCriteria
-#' 
+filterCriteria <- c(1:30)
 
 #' Q9. Create a logical vector of 30 elements with every 5th element as TRUE value and rest of the elements as FALSE. 
 #' Name the vector the same as filterCriteria 
@@ -74,13 +76,14 @@ print(employees)
 #' to create filterCriteria. 
 #' e.g: First 6 elements of the newly created filterCriteria vector should look like 
 #' filterCriteria : FALSE FALSE FALSE FALSE TRUE FALSE 
-#' 
+
+filterCriteria <- filterCriteria *5
 
 #' Q10. Create a new dataframe filteredEmployees from the original dataframe employees using the logical vector
 #' filterCriteria created in Q9. 
-
+filteredEmployees <- data.frame(employees)
 #' Q11. Display the first 6 records of the dataframe filteredEmployees using head function 
-#' 
+head(filteredEmployees, n = 6)
 #' 
 #' Q12. Validate that the first record of filteredEmployees dataframe should be the fifth record of the original 
 #' dataframe employees. It should be same as the record extracted using the filter criteria 
@@ -88,22 +91,39 @@ print(employees)
 #' 
 
 #' Q13. Display the structure of the prebuilt dataset diamonds 
-#' 
+install.packages('ggplot2')
+library('ggplot2')
+diamonds
+str(diamonds)
 
 #' Q14. Display the first 10 records of the diamonds dataset using head() function and override the parameters 
 #' Provide explanation for what do I mean by overriding default parameters. 
 #' Hint: Look for online help provided by RStudio 
-#'  
+head(diamonds, n = 10)
 
 #' Q15. Create dataframe goodDiamonds from diamonds dataframe with each diamond cut being "Good" 
+str(diamonds)
+diamonds[c(1,2,3),]
+diamonds[diamonds$cut == "Good",]
 
 #' Q16. display unique values of cut colums of diamonds dataframe 
-#'
+unique(diamonds$cut)
 
 #' Q17. Assume that diamonds is a sales dataset. You would like to give discount as follow: 
 #' 10%, 15%, 20% discount on price of Fair, Good, Very Good diamonds and 25% on Premium & Ideal diamonds 
 #' Create a new dataframe column with the updated price 
+discountedPrice <- function (category, price) {
+  if (category == "Good") {
+    price <- price - 0.15*price 
+  } else if (category == "Fair") {
+    price <- price - 0.10*price
+  } else if (category == "Very Good")
+    price <- price - 0.20*price
+} else if (category == "Premium & Ideal diamonds")
+    price <- price - 0.25*price
 
+
+diamonds1$discountedPrice <- discountedPrice(diamonds1$cut, diamonds1$price)
 #' Q18. Group by diamonds cut and display the count. Output should look like below: 
 #' cut       countDiamonds
 #' 
@@ -114,7 +134,7 @@ print(employees)
 #' 5 Ideal             21551 
 
 #' Q19. Only display data from diamonds that have a cut value of Fair or Good and a price at or under $600
-
+specificDiamonds <- diamonds[discountedPrice]
 #' Q20. Display the dimensions of preloaded mtcars dataset 
 #' 
 
@@ -122,14 +142,25 @@ print(employees)
 
 #' Q22. Create a factor variable factorCyl using the cyl column of mtcars 
 #' with labels as "Four-Cyl", "Six-Cyl", "Eight-Cyl"
-#' 
+mtcars$FactorCyl <- factor(mtcars$cyl,
+                           level = c(4,6,8),
+                           labels = c("Four-Cyl", "Six-Cyl", "Eight-Cyl"),
+                           ordered = FALSE)
+str(mtcars)
 
 #' Q23. Create a factor variable factorCyl using the cyl column of mtcars 
 #' with labels as "Four-Cyl", "Six-Cyl", "Eight-Cyl". Make the factor of order type 
-
+mtcars$FactorCyl <- factor(mtcars$cyl,
+                           level = c(4,6,8),
+                           labels = c("Four-Cyl", "Six-Cyl", "Eight-Cyl"),
+                           ordered = TRUE)
+  
 #' Q24. Display unique values of new column factorCyl and write what you observe 
-#' 
+unique(mtcars$FactorCyl)
 
 #' Q25. Use subset function to extract automatic cars into autoCars and manual cars into manualCars dataframe
 #' Use the am column of mtcars dataset to separate the records  
-
+manual <- mtcars[mtcars$am == 1,]
+manual
+auto <- mtcars[mtcars$am == 0,]
+auto
